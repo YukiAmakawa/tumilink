@@ -1,10 +1,11 @@
 
 export default {
-  mode: 'universal',
+  mode: 'spa',
   /*
   ** Headers of the page
   */
   head: {
+    script: [{ src: 'https://static.line-scdn.net/liff/edge/2/sdk.js' }],
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
@@ -14,6 +15,9 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
+  },
+  env: {
+    liffId: process.env.LIFF_ID || 'http://localhost:3000'
   },
   generate: {
     dir: 'public'

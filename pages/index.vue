@@ -6,7 +6,7 @@
         tumilink
       </h1>
       <h2 class="subtitle">
-        My pioneering Nuxt.js project
+        {{ name }}
       </h2>
       <div class="links">
         <a
@@ -30,6 +30,49 @@ import Logo from '~/components/Logo.vue'
 export default {
   components: {
     Logo
+  },
+  data() {
+    return {
+      name: '',
+      isLoggedIn: false
+    }
+  },
+  created() {
+    this.initializeLiff()
+  },
+  methods: {
+    initializeLiff() {
+      // eslint-disable-next-line no-console
+      console.log('init')
+      const liff = window.liff
+      try {
+        liff.init({ liffId: process.env.liffId }, (data) => {
+          // ログイン済み
+          this.checkLogin()
+          // eslint-disable-next-line no-console
+          console.log('hoge')
+          this.getUserProfile()
+        })
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log('LIFF initialization failed', e)
+      }
+    },
+    async getUserProfile() {
+      const profile = await window.liff.getProfile()
+      this.name = profile.displayName
+    },
+    checkLogin() {
+      // eslint-disable-next-line no-console
+      console.log(window.liff.isLoggedIn())
+      if (!window.liff.isInClient() && !window.liff.isLoggedIn()) {
+        // eslint-disable-next-line no-console
+        console.log('login')
+        // this.$router.push('./login')
+        window.liff.login()
+        // this.initializeLiff()
+      }
+    }
   }
 }
 </script>
