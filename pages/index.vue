@@ -8,17 +8,10 @@
       <h2 class="subtitle">
         {{ name }}
       </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >GitHub</a>
+      <div v-if="isLineClient" class="links">
+        <div @click="sendMessage">
+          送信
+        </div>
       </div>
     </div>
   </div>
@@ -42,15 +35,10 @@ export default {
   },
   methods: {
     initializeLiff() {
-      // eslint-disable-next-line no-console
-      console.log('init')
       const liff = window.liff
       try {
-        liff.init({ liffId: process.env.liffId }, (data) => {
-          // ログイン済み
+        liff.init({ liffId: '1654339660-NKwOzamd' }, (data) => {
           this.checkLogin()
-          // eslint-disable-next-line no-console
-          console.log('hoge')
           this.getUserProfile()
         })
       } catch (e) {
@@ -62,15 +50,26 @@ export default {
       const profile = await window.liff.getProfile()
       this.name = profile.displayName
     },
+    isLineClient() {
+      return window.liff.isInClient()
+    },
     checkLogin() {
-      // eslint-disable-next-line no-console
-      console.log(window.liff.isLoggedIn())
-      if (!window.liff.isInClient() && !window.liff.isLoggedIn()) {
-        // eslint-disable-next-line no-console
-        console.log('login')
-        // this.$router.push('./login')
+      if (!this.isLineClient && !window.liff.isLoggedIn()) {
         window.liff.login()
-        // this.initializeLiff()
+      }
+    },
+    async sendMessage() {
+      try {
+        await window.liff
+          .sendMessages([
+            {
+              type: 'text',
+              text: '送信が完了しました'
+            }
+          ])
+        window.liff.closeWindow()
+      } catch (e) {
+        window.alert('Error sending message: ' + e)
       }
     }
   }
