@@ -6,19 +6,12 @@
         tumilink
       </h1>
       <h2 class="subtitle">
-        My pioneering Nuxt.js project
+        {{ name }}
       </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >Documentation</a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >GitHub</a>
+      <div v-if="isLineClient" class="links">
+        <div @click="sendMessage">
+          送信
+        </div>
       </div>
     </div>
   </div>
@@ -30,6 +23,55 @@ import Logo from '~/components/Logo.vue'
 export default {
   components: {
     Logo
+  },
+  data() {
+    return {
+      name: '',
+      isLoggedIn: false
+    }
+  },
+  created() {
+    this.initializeLiff()
+  },
+  methods: {
+    initializeLiff() {
+      const liff = window.liff
+      try {
+        liff.init({ liffId: process.env.LIFF_ID }, (data) => {
+          this.checkLogin()
+          this.getUserProfile()
+        })
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log('LIFF initialization failed', e)
+      }
+    },
+    async getUserProfile() {
+      const profile = await window.liff.getProfile()
+      this.name = profile.displayName
+    },
+    isLineClient() {
+      return window.liff.isInClient()
+    },
+    checkLogin() {
+      if (!this.isLineClient && !window.liff.isLoggedIn()) {
+        window.liff.login()
+      }
+    },
+    async sendMessage() {
+      try {
+        await window.liff
+          .sendMessages([
+            {
+              type: 'text',
+              text: '送信が完了しました'
+            }
+          ])
+        window.liff.closeWindow()
+      } catch (e) {
+        window.alert('Error sending message: ' + e)
+      }
+    }
   }
 }
 </script>
