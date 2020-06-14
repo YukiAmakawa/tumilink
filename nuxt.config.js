@@ -1,4 +1,7 @@
 
+require('dotenv').config()
+const { LIFF_ID } = process.env
+
 export default {
   mode: 'spa',
   /*
@@ -17,7 +20,7 @@ export default {
     ]
   },
   env: {
-    liffId: process.env.LIFF_ID || 'http://localhost:3000'
+    LIFF_ID
   },
   generate: {
     dir: 'public'
@@ -35,12 +38,14 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/firebase.js'
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/dotenv'
   ],
   /*
   ** Build configuration

@@ -37,7 +37,7 @@ export default {
     initializeLiff() {
       const liff = window.liff
       try {
-        liff.init({ liffId: '1654339660-NKwOzamd' }, (data) => {
+        liff.init({ liffId: process.env.LIFF_ID }, (data) => {
           this.checkLogin()
           this.getUserProfile()
         })
