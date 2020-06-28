@@ -33,6 +33,9 @@ export default {
   ** Global CSS
   */
   css: [
+    '@/assets/css/common.scss',
+    '@/assets/css/reset.css',
+    '@/assets/css/globals.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -55,7 +58,13 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend(config, ctx) {
+    extend: (config) => {
+      const svgRule = config.module.rules.find(rule => rule.test.test('.svg'))
+      svgRule.test = /\.(png|jpe?g|gif|webp)$/
+      config.module.rules.push({
+        test: /\.svg$/,
+        loader: 'vue-svg-loader'
+      })
     }
   }
 }
