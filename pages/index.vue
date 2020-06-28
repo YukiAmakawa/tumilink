@@ -13,6 +13,12 @@
           送信
         </div>
       </div>
+      <p>新しい部分</p>
+      <li v-for="content in contents" :key="content">
+        {{ content.url }}
+      </li>
+
+      {{ error }}
     </div>
   </div>
 </template>
@@ -27,11 +33,14 @@ export default {
   data() {
     return {
       name: '',
-      isLoggedIn: false
+      contents: [],
+      lineId: '',
+      error: ''
     }
   },
-  created() {
-    this.initializeLiff()
+  async created() {
+    await this.initializeLiff()
+    this.fetchUserContens()
   },
   methods: {
     initializeLiff() {
@@ -40,10 +49,13 @@ export default {
         liff.init({ liffId: process.env.LIFF_ID }, (data) => {
           this.checkLogin()
           this.getUserProfile()
+          // this.lineId = data.context.userId
+          this.lineId = process.env.SAMPLE_LINE_ID
         })
       } catch (e) {
         // eslint-disable-next-line no-console
-        console.log('LIFF initialization failed', e)
+        // console.log('LIFF initialization failed', e)
+        this.error = e
       }
     },
     async getUserProfile() {
@@ -56,6 +68,14 @@ export default {
     checkLogin() {
       if (!this.isLineClient && !window.liff.isLoggedIn()) {
         window.liff.login()
+      }
+    },
+    async fetchUserContens() {
+      try {
+        const { data } = await this.$axios.get(`${process.env.API_URL}api/users/1`)
+        this.contents = data.response.contents
+      } catch (e) {
+        this.error = e
       }
     },
     async sendMessage() {
