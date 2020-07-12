@@ -5,10 +5,11 @@
       :handleSearch="handleSearch"
     />
     <div v-if="isLineClient" class="links">
-      <li v-for="(content, index) in filteredContents" :key="index">
-        {{ content.url }}
-      </li>
-
+      <Content
+        v-for="(content, index) in filteredContents"
+        :key="index"
+        :content="content"
+      />
       {{ error }}
     </div>
   </div>
@@ -16,9 +17,11 @@
 
 <script>
 import AppSearch from '@/components/atoms/form/AppSearch.vue'
+import Content from '@/components/molecules/card/Content.vue'
 export default {
   components: {
-    AppSearch
+    AppSearch,
+    Content
   },
   data() {
     return {
@@ -99,5 +102,13 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.wrap {
+  .links {
+    margin-top: 47px;
+    .content + .content {
+      margin-top: 50px;
+    }
+  }
+}
 </style>
