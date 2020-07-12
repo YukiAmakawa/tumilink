@@ -93,3 +93,6 @@ img {
 .hidden {
   display: none;
 }
+li {
+  list-style: none;
+}
