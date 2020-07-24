@@ -16,7 +16,11 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.11.0",
     "@nuxtjs/dotenv": "^1.4.1",
-    "nuxt": "^2.0.0"
+    "dayjs": "^1.8.30",
+    "node-sass": "^4.14.1",
+    "nuxt": "^2.0.0",
+    "sass-loader": "^8.0.2",
+    "vue-js-modal": "^2.0.0-rc.6"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^0.0.1",
@@ -36,6 +40,7 @@
     "eslint-plugin-vue": "^5.2.2",
     "jest": "^24.1.0",
     "nodemon": "^1.18.9",
-    "vue-jest": "^3.0.3"
+    "vue-jest": "^3.0.3",
+    "vue-svg-loader": "^0.16.0"
   }
 }

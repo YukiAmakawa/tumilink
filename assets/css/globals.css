@@ -1,0 +1,24 @@
+:root {
+  /****** colors ******/
+  --base: #54778C;
+  --secondary: #CBD8E0;
+  --black: #0B1013;
+  --white: #FFFFFF;
+  --background: #EEF3F5;
+
+  /****** margin ******/
+  --margin-xs: .35rem; /* xs = 5px ≒ .35rem */
+  --margin-sm: .7rem; /* sm = 10px ≒ .7rem */
+  --margin-md: 1.43rem; /* md = 20px ≒ 1.45rem */
+  --margin-lg: 2.1rem; /* lg = 30px ≒ 2.1rem */
+  --margin-xl: 3.5rem; /* xl = 50px ≒ 3.5rem */
+  --margin-xxl: 6.43rem; /* xxl = 90px ≒ 6.43rem */
+
+  /****** font-size ******/
+  --text-xs: .75rem; /* 10px */
+  --text-sm: .875rem; /* 12px */
+  --text-md: 1rem; /* 14px */
+  --text-lg: 1.14rem; /* 16px */
+  --text-xl: 1.285rem; /* 18px */
+  --text-xxl: 1.43rem; /* 20px */
+}

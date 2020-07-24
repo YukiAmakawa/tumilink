@@ -1,0 +1,141 @@
+// @import "./colors";
+@import "./globals";
+
+html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Open Sans', 'Helvetica', 'Arial', sans-serif;
+  background: #f8f5f2;
+  color: #232323;
+  font-size: 14px;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+
+  // font-weight: 300;
+  // -webkit-font-smoothing: antialiased;
+  // -moz-osx-font-smoothing: grayscale;
+  // width: 100%;
+  // height: 100vh;
+  // padding: auto auto;
+}
+.center {
+  text-align: center;
+}
+
+.wrap {
+  width: 330px;
+  margin: 35px auto 0 auto;
+}
+
+/*flex-class*/
+.flex {
+  display: flex;
+}
+.flex {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: -moz-box;
+  display: flex;
+}
+.inline-flex {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: -webkit-inline-flex;
+  display: inline-flex;
+}
+.flex-wrap {
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+.space-between {
+  justify-content: space-between;
+}
+.space-around {
+  justify-content: space-around;
+}
+.content-center {
+  justify-content: center;
+}
+.flex-middle {
+  align-items: center;
+}
+
+.baseline {
+  align-items: baseline;
+}
+
+.align-end {
+  align-items: flex-end;
+}
+
+.end {
+  justify-content: flex-end;
+}
+
+a {
+  text-decoration: none;
+  color: gray;
+  transition: 0.2s ease-in-out;
+}
+
+// placeholderの色変更
+@mixin placeholder() {
+  &::placeholder {
+    color: var(--secondary);
+  }
+
+  // IE
+  &:-ms-input-placeholder {
+    color: var(--secondary);
+  }
+
+  // Edge
+  &::-ms-input-placeholder {
+    color: var(--secondary);
+  }
+}
+
+/*buttons*/
+.button {
+  display: inline-block;
+  width: 150px;
+  text-decoration: none;
+  outline: 0;
+  padding: 0.5em 0.6em;
+  background: #001e1d;
+  border-radius: 50px;
+  cursor: pointer;
+  color: #fffffe;
+  font-weight: bold;
+  -webkit-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+
+// 並び替え・削除ボタンのcss
+
+.wrap-button {
+  width: 100%;
+  margin-top: 15px;
+  color: gray;
+  span {
+    padding: 5px 8px;
+    border: 1px solid gray;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  span + span {
+    margin-left: 15px;
+  }
+}
+
+// cssのtransition
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}

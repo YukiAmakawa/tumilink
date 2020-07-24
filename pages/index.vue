@@ -1,41 +1,36 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        tumilink
-      </h1>
-      <h2 class="subtitle">
-        {{ name }}
-      </h2>
-      <div v-if="isLineClient" class="links">
-        <div @click="sendMessage">
-          送信
-        </div>
-      </div>
-      <p>新しい部分</p>
-      <li v-for="content in contents" :key="content">
-        {{ content.url }}
-      </li>
-
+  <div class="wrap">
+    <AppSearch
+      v-model="searchText"
+      :handleSearch="handleSearch"
+    />
+    <div v-if="isLineClient" class="links">
+      <Content
+        v-for="(content, index) in filteredContents"
+        :key="index"
+        :content="content"
+      />
       {{ error }}
     </div>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
+import AppSearch from '@/components/atoms/form/AppSearch.vue'
+import Content from '@/components/molecules/card/Content.vue'
 export default {
   components: {
-    Logo
+    AppSearch,
+    Content
   },
   data() {
     return {
       name: '',
       contents: [],
+      filteredContents: [],
       lineId: '',
-      error: ''
+      error: '',
+      searchText: ''
     }
   },
   async created() {
@@ -74,57 +69,46 @@ export default {
       try {
         const { data } = await this.$axios.get(`${process.env.API_URL}api/users/1`)
         this.contents = data.response.contents
+        this.filteredContents = data.response.contents
       } catch (e) {
         this.error = e
       }
     },
-    async sendMessage() {
-      try {
-        await window.liff
-          .sendMessages([
-            {
-              type: 'text',
-              text: '送信が完了しました'
-            }
-          ])
-        window.liff.closeWindow()
-      } catch (e) {
-        window.alert('Error sending message: ' + e)
+    handleSearch() {
+      if (!this.contents) return
+      if (!this.searchText) {
+        this.filteredContents = this.contents
+      } else {
+        this.filteredContents = this.contents.filter((content) => {
+          return content.url.includes(this.searchText)
+        })
       }
     }
+    // async sendMessage() {
+    //   try {
+    //     await window.liff
+    //       .sendMessages([
+    //         {
+    //           type: 'text',
+    //           text: '送信が完了しました'
+    //         }
+    //       ])
+    //     window.liff.closeWindow()
+    //   } catch (e) {
+    //     window.alert('Error sending message: ' + e)
+    //   }
+    // }
   }
 }
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+<style lang="scss" scoped>
+.wrap {
+  .links {
+    margin-top: 47px;
+    .content + .content {
+      margin-top: 50px;
+    }
+  }
 }
 </style>
