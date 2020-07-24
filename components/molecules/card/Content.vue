@@ -7,11 +7,19 @@
       <p class="content-title">
         {{ content.title }}
       </p>
-      <span class="content-date">{{ content.created_at }}</span>
-      <span class="content-read">2人が既読</span>
+      <span class="content-date">{{ fromNow(content.created_at) }}</span>
+      <span class="content-read">{{ content.read }}人が既読</span>
     </a>
     <div class="content-menu flex flex-middle">
-      <Menu />
+      <Menu @click="show" />
+      <AppModal name="content-modal">
+        <AppButton @click="onRead">
+          既読にする
+        </AppButton>
+        <AppButton @click="onDelete">
+          削除する
+        </AppButton>
+      </AppModal>
     </div>
   </div>
 </template>
@@ -19,14 +27,37 @@
 <script lang="js">
 import Vue from 'vue'
 import Menu from '@/assets/icons/menu.svg'
+import AppModal from '@/components/templates/AppModal.vue'
+import AppButton from '@/components/atoms/buttons/AppButton.vue'
 export default Vue.extend({
   components: {
-    Menu
+    Menu,
+    AppModal,
+    AppButton
   },
   props: {
     content: {
       type: Object,
       default: () => {}
+    }
+  },
+  methods: {
+    fromNow(time) {
+      return time ? this.$dayjs(time).fromNow() : ''
+    },
+    show() {
+      this.$modal.show('content-modal')
+    },
+    hide() {
+      this.$modal.hide('content-modal')
+    },
+    onRead() {
+      // console.log('read')
+      this.hide()
+    },
+    onDelete() {
+      // console.log('delete')
+      this.hide()
     }
   }
 })
