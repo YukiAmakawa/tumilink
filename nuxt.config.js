@@ -42,7 +42,8 @@ export default {
   */
   plugins: [
     '~/plugins/firebase.js',
-    '~/plugins/dayjs.js'
+    '~/plugins/dayjs.js',
+    '~plugins/vue-js-modal.js'
   ],
   /*
   ** Nuxt.js modules
